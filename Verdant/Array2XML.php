@@ -2,6 +2,9 @@
 
 namespace Verdant;
 
+use DOMDocument;
+use DOMNode;
+
 /**
  * Array2XML: A class to convert array in PHP to XML
  * Returns the XML in form of DOMDocument class.
@@ -31,7 +34,7 @@ namespace Verdant;
  * Version: 0.9 (26 August 2013), Verdant Industries
  *          - Converted from static usage to instance usage with static facade for compatibility
  *          - Added configurable attribute/cdata/value special keys
- * 
+ *
  *
  * Usage:
  *       $xml = Array2XML::createXML($array);
@@ -45,10 +48,10 @@ class Array2XML
      * @var array
      */
     public $config = array();
-    
+
     /**
      * The working XML document
-     * @var \DOMDocument
+     * @var DOMDocument
      */
     protected $xml = null;
 
@@ -71,7 +74,7 @@ class Array2XML
             $this->config = array_merge($this->config, $config);
         }
     }
-    
+
     /**
      * Initialise the instance for a conversion
      */
@@ -86,18 +89,18 @@ class Array2XML
      */
     protected function createDomDocument()
     {
-        return new \DOMDocument($this->config['version'], $this->config['encoding']);
+        return new DOMDocument($this->config['version'], $this->config['encoding']);
     }
 
     /**
      * Convert an array to an XML document
      * @param array $array The input array
-     * @return \DOMDocument The XML representation of the input array
+     * @return DOMDocument The XML representation of the input array
      */
     public function &buildXml($array)
-    {       
+    {
         $this->init();
-        
+
         if (array_key_exists('rootNodeName', $this->config) && is_string($this->config['rootNodeName'])) {
             $rootNodeName = $this->config['rootNodeName'];
         } else {
@@ -106,19 +109,19 @@ class Array2XML
                 $array = $array[$rootNodeName];
             }
         }
-        
+
         $this->xml = $this->getXmlRoot();
         $this->xml->appendChild($this->convert($rootNodeName, $array));
 
         return $this->xml;
     }
-    
+
     /**
      * Convert an array to an XML document
      * A static facade for ease of use and backwards compatibility
      * @param array $array The input array
      * @param array $config The configuration to use for the conversion
-     * @return \DOMDocument The XML representation of the input array
+     * @return DOMDocument The XML representation of the input array
      */
     public static function &createXML($array, $config = array())
     {
@@ -138,7 +141,7 @@ class Array2XML
      * Convert an array to XML nodes
      * @param string $nodeName The name of the node that the data will be stored under
      * @param array $array The array to be converted
-     * @return \DOMNode The XML representation of the input data
+     * @return DOMNode The XML representation of the input data
      */
     protected function &convert($nodeName, $array = array())
     {
