@@ -201,7 +201,7 @@ class Array2XML
 
         // after we are done with all the keys in the array (if it is one)
         // we check if it has any text value, if yes, append it.
-        if ( ! is_array($array)) {
+        if ( ! is_array($array) && isset($array)) {
             $node->appendChild($xml->createTextNode($this->bool2str($array)));
         }
 
