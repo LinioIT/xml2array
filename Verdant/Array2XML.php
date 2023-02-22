@@ -55,6 +55,8 @@ class Array2XML
      */
     protected $xml = null;
 
+    protected $namespaces = array();
+
     /**
      * Constructor
      * @param array $config The configuration to use for this instance
